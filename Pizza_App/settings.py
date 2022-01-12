@@ -141,5 +141,5 @@ LOGIN_REDIRECT_URL = 'store:pizza-home'
 LOGIN_URL = 'login'
 
 
-STRIPE_PUBLIC_KEY = ''
-STRIPE_SECRET_KEY = ''
+DEFAULT_FROM_EMAIL = ''
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 import random
 from django.contrib import messages
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 from django.conf import settings
 from django.shortcuts import redirect
@@ -8,14 +10,30 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import CheckoutForm
+from .forms import CheckoutForm, ContactForm
 
 
 def home(request):
     return render(request, 'store/home.html')
 
 def contacts(request):
-        return render(request, 'store/contacts.html')
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+
+            try:
+                send_mail(name, message, email, ['pizza@peak.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+
+            messages.success(request, f'We received your Message! ')
+            return redirect('store:pizza-contacts')
+    return render(request, "store/contacts.html", {'form': form})
 
 
 def about(request):

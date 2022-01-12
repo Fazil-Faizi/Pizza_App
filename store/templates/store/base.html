@@ -29,7 +29,7 @@
       			<li><a href="{% url 'store:pizza-home' %}">Home</a></li>
       			<li><a href="{% url 'store:pizza-menu' %}">Menu</a></li>
       			<li><a href="{% url 'store:pizza-about' %}">About</a></li>
-      			<li><a href="{% url 'store:pizza-contacts' %}">Contacts</a></li>
+      			<li><a href="{% url 'store:pizza-contacts' %}">Contact Us</a></li>
             <li><a href="{% url 'store:order-summary' %}"><img src="{% static 'images/cart.png' %}" width="30px" height="30px" alt="Cart"></a></li>
             {% if user.is_authenticated %}
               <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -37,8 +37,17 @@
               <li><a href="{% url 'login' %}">Log In</a></li>
             {%endif%}
       		</ul>
-      	</nav><br>
+      	</nav><br><br><br>
 
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                  {{ message }}
+                </div>
+                {% endfor %}
+              {% endif%}
+        </div>
 
 
     {% block content %}
