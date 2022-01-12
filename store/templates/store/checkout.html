@@ -1,0 +1,22 @@
+{% extends 'store/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<br>
+<br>
+<br><br><br>
+<h1>Select Payment Option</h1>
+<br><br><br>
+<form method="POST">
+  {% csrf_token %}
+  {% for value, name in form.fields.payment_option.choices %}
+    <input type="radio" value="{{value}}" name="payment_option" id="{{name}}" required>
+    <label for="{{name}}">{{name}}</label>
+  {% endfor %}
+  <button type="submit">Checkout</button>
+</form>
+
+<br><br><br><br><br>
+{% endblock content %}
